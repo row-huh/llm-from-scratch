@@ -1,5 +1,5 @@
 import re
-from Simpletokenizer import SimpleTokenizerV1
+from Simpletokenizer import SimpleTokenizerV1, SimpleTokenizerV2
 
 with open("the-verdict.txt", "r", encoding="utf-8") as file:
     raw_text = file.read()
@@ -13,15 +13,22 @@ all_words = sorted(list(set(preprocessed)))
 all_words.extend(["<|endoftext|>", "<|unk|>"])
 
 vocab = {token:integer for integer, token in enumerate(all_words)}
-print("Pre tokenization: ", vocab)
 
-tokenizer = SimpleTokenizerV1(vocab=vocab)
+tokenizer = SimpleTokenizerV2(vocab=vocab)
 text = """
     "It's the last he painted, you know,"
     Mrs. Gisburn said with pardonable pride
 """
 
 ids = tokenizer.encode(text)
-print(ids)
 
-print(tokenizer.decode(ids))
+
+text1 = "Hello, do you like tea?"
+text2 = "In the sunlit terraces of the palace."
+text = " <|endoftext|> ".join((text1, text2))
+
+print(text)
+
+print(tokenizer.encode(text))
+
+print(tokenizer.decode(tokenizer.encode(text)))
