@@ -1,5 +1,5 @@
 import re
-from Simpletokenizer import SimpleTokenizerV1, SimpleTokenizerV2
+from util import SimpleTokenizerV1, SimpleTokenizerV2
 
 with open("the-verdict.txt", "r", encoding="utf-8") as file:
     raw_text = file.read()
