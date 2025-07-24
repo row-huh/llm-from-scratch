@@ -18,6 +18,7 @@ all_words.extend(["<|endoftext|>", "<|unk|>"])
 
 vocab = {token:integer for integer, token in enumerate(all_words)}
 
+
 tokenizer = SimpleTokenizerV2(vocab=vocab)
 text = """
     "It's the last he painted, you know,"
