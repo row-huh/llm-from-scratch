@@ -84,3 +84,5 @@ pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
 pos_embeddings = pos_embedding_layer(torch.arrange(context_length))
 # this shows embeddings
 print(pos_embeddings.shape)
+
+input_embeddings = token_embeddings + pos_embeddings
