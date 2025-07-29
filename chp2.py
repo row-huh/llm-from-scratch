@@ -27,3 +27,7 @@ print(integers)
 # convert back into original tokens
 strings = tokenizer.decode(integers)
 print(strings)
+
+
+# create a datasetloader class responsible for creating
+# input tensors and target tensors (see gptdatasetv1)
