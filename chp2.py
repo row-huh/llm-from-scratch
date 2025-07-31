@@ -31,3 +31,11 @@ print(strings)
 
 # create a datasetloader class responsible for creating
 # input tensors and target tensors (see gptdatasetv1)
+
+# then finally create an instantiator/loader function that will instantiate
+# gptdatasetloader for you and instantiate pytorch's dataloader as well
+
+# now you can pass in your text + some parameters into this function and get
+# back an efficient dataloader - data-iter = iter(dataloader) to convert into iterative objeect
+# then next(data_iter) gets you batches one by one (batches means input/target pairs tensors)
+
