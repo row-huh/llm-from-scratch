@@ -39,3 +39,5 @@ print(strings)
 # back an efficient dataloader - data-iter = iter(dataloader) to convert into iterative objeect
 # then next(data_iter) gets you batches one by one (batches means input/target pairs tensors)
 
+
+# finally convert into embedding layer using torch.nn.Embedding(vocab_size, output_dim)
