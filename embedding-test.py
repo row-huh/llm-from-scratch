@@ -58,3 +58,10 @@ context_length = max_length
 pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
 pos_embeddings = pos_embedding_layer(torch.arange(context_length))
 print(pos_embeddings.shape)
+
+# add these directly to the token embeddings, where PyTorch will add
+# the 4 × 256–dimensional pos_embeddings tensor to each 4 × 256–dimensional token
+# embedding tensor in each of the eight batches:
+
+input_embeddings = token_embeddings + pos_embeddings
+print(input_embeddings.shape)
