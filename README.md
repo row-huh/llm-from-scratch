@@ -5,8 +5,8 @@ Following this book: [Build a Large Language Model From Scratch](https://www.man
 ### Progress
 
 - [x] Chapter 1: Understanding LLMs  
-- [ ] Chapter 2: Working with Text Data  <--
-- [ ] Chapter 3: Coding Attention mechanisms  
+- [x] Chapter 2: Working with Text Data  
+- [ ] Chapter 3: Coding Attention mechanisms  <--
 - [ ] Chapter 4: Implementing a GPT model from scratch to generate text
 - [ ] Chapter 5: Pretraining an unlabeled data
 - [ ] Chapter 6: Fine-tuning for classification
