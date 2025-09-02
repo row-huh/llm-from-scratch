@@ -10,4 +10,4 @@ Following this book: [Build a Large Language Model From Scratch](https://www.man
 - [ ] Chapter 4: Implementing a GPT model from scratch to generate text
 - [ ] Chapter 5: Pretraining an unlabeled data
 - [ ] Chapter 6: Fine-tuning for classification
-- [ ] Chapter 7: Fine tuning to follow instructions
+- [ ] Chapter 7: Fine tuning to follow instructions 
