@@ -18,3 +18,43 @@ class DummyGPTModel(nn.Module):
         super().__init__()
         self.token_embedding = nn.Embedding(cfg["vocab_size"], cfg["embd_dim"])
         self.positional_embedding = nn.Embedding(cfg["vocab_size"], cfg["embd_dim"])
+        self.drop_embedding = nn.Dropout(cfg["drop_rate"])
+        self.transformer_blocks = nn.Sequential(
+            *[DummyTransformerBlock(cfg)
+              for _ in range(cfg["n_layers"])]
+        )
+        self.final_norm = DummyLayerNorm(cfg["embd_dim"])
+        self.out_head = nn.Linear(
+            cfg["embd_dim"], cfg["vocab_size"], bias=False
+        )
+    
+    def forward(self, in_idx):
+        batch_size, seq_len = in_idx.shape
+        token_embeddings = self.token_embedding(in_idx)
+        positional_embeddings = self.positional_embedding(
+            torch.arange(seq_len, device=in_idx.device)
+        )
+        x = token_embeddings + positional_embeddings
+        x = self.drop_embedding(x)
+        x = self.transformer_blocks(x)
+        x = self.final_norm(x)
+        
+        logits = self.out_head(x)
+        return logits
+
+class DummyTransformerBlock(nn.Module):
+    def __init__(self,cfg):
+        super().__init__()
+        
+    def forward(self, x):
+        return x
+    
+    
+class DummyLayerNorm(nn.Module):
+    def __init__(self, normalized_shape, eps=1e-5):
+        super().__init__()
+        
+    def forward(self, x):
+        return x
+        
+        
