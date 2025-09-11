@@ -7,7 +7,7 @@ GPT_CONFIG_124M = {
     "embd_dim": 768,
     "n_heads": 12,
     "n_layers": 12,
-    "dropout": 0.1,
+    "drop_rate": 0.1,
     "qkv_bias": False,  # to be implemented in chapter 6
 }
 
@@ -42,6 +42,10 @@ class DummyGPTModel(nn.Module):
         logits = self.out_head(x)
         return logits
 
+
+
+
+# These are placeholders for now, will be used later
 class DummyTransformerBlock(nn.Module):
     def __init__(self,cfg):
         super().__init__()
@@ -49,12 +53,11 @@ class DummyTransformerBlock(nn.Module):
     def forward(self, x):
         return x
     
-    
+
+# These are placeholders for now, will be used later
 class DummyLayerNorm(nn.Module):
     def __init__(self, normalized_shape, eps=1e-5):
         super().__init__()
         
     def forward(self, x):
         return x
-        
-        
