@@ -4,10 +4,10 @@ import torch.nn as nn
 GPT_CONFIG_124M = {
     "vocab_size": 50257, # total number of words 
     "context_length": 1024, 
-    "embd_dim": 768,
-    "n_heads": 12,
-    "n_layers": 12,
-    "drop_rate": 0.1,
+    "embd_dim": 768, 
+    "n_heads": 12, 
+    "n_layers": 12, 
+    "drop_rate": 0.1, 
     "qkv_bias": False,  # to be implemented in chapter 6
 }
 
