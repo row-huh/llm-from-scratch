@@ -36,3 +36,20 @@ var = out.var(dim=-1, keepdim=True)
 
 print("Mean:\n", mean)
 print("Variance:\n", var)
+
+# applying layer normalization
+out_norm = (out - mean) / torch.sqrt(var)
+mean = out_norm.mean(dim=-1, keepdim=True)
+var = out_norm.var(dim=-1, keepdim=True)
+print("Normalized layer outputs: \n", out_norm)
+
+
+# using updated layer normalization class 
+ln = LayerNorm(emb_dim = 5)
+out_ln = ln(batch_example)
+mean = out_ln.mean(dim=-1, keepdim=True)
+var = out_ln.var(dim=-1, unbiased=False, keepdim=True)
+torch.set_printoptions(sci_mode=False)
+
+print("Mean: \n", mean)
+print("Variance: \n", var)

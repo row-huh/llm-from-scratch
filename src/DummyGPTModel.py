@@ -23,7 +23,7 @@ class DummyGPTModel(nn.Module):
             *[DummyTransformerBlock(cfg)
               for _ in range(cfg["n_layers"])]
         )
-        self.final_norm = DummyLayerNorm(cfg["embd_dim"])
+        self.final_norm = LayerNorm(cfg["embd_dim"])
         self.out_head = nn.Linear(
             cfg["embd_dim"], cfg["vocab_size"], bias=False
         )
@@ -55,9 +55,16 @@ class DummyTransformerBlock(nn.Module):
     
 
 # These are placeholders for now, will be used later
-class DummyLayerNorm(nn.Module):
-    def __init__(self, normalized_shape, eps=1e-5):
+class LayerNorm(nn.Module):
+    def __init__(self, emb_dim):
         super().__init__()
+        self.eps = 1e-5
+        self.scale = nn.Parameter(torch.ones(emb_dim))
+        self.shift = nn.Parameter(torch.zeros(emb_dim))
+        
         
     def forward(self, x):
-        return x
+        mean = x.mean(dim=-1, keepdim=True)
+        var = x.var(dim=-1, keepdim=True, unbiased=False)
+        norm_x = (x - mean) / torch.sqrt(var + self.eps)
+        return self.scale * norm_x + self.shift
