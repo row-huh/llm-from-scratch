@@ -70,7 +70,7 @@ class LayerNorm(nn.Module):
         return self.scale * norm_x + self.shift
     
     
-class GELU(nn.module):
+class GELU(nn.Module):
     def __init__(self):
         super().__init__()
         
