@@ -6,7 +6,7 @@ tokenizer = tiktoken.get_encoding("gpt2")
 batch = []
 txt1 = "Every effort moves you"
 # i did update the text but each batch must be 
-# equal size for the torch.stack thing to work
+# equal size for the torch.stack thing to work  
 txt2 = "Every day holds a"
 
 batch.append(torch.tensor(tokenizer.encode(txt1)))
