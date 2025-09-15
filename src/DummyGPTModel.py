@@ -88,3 +88,7 @@ class FeedForward(nn.Module):
             GELU(),
             nn.Linear(4 * cfg["emb_dim"], cfg["emb_dim"])
         )
+    
+    def forward(self, x):
+        return self.layers(x)
+    
