@@ -190,7 +190,6 @@ class DummyTransformerBlock(nn.Module):
         return x
     
 
-# These are placeholders for now, will be used later
 class LayerNorm(nn.Module):
     def __init__(self, emb_dim):
         super().__init__()
