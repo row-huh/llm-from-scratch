@@ -193,3 +193,29 @@ print("\nOutput Batch:", out.shape)
 print(out) 
 
 
+# getting total number of parameters in the model's parameter tensors
+total_params = sum(p.numel() for p in model.parameters())
+print(f"Total number of parameters: {total_params:,}")
+
+total_params_gpt2 = (
+    total_params - sum(p.numel()
+        for p in model.out_head.parameters())
+    )
+
+print(f"Number of trainable parameters "
+      f"considering weight tying: {total_params_gpt2:,}"
+      )
+
+# it's 600 ish mb for my small model 
+# and i was testing to see how much space does gpt 4 take up 
+# given it has 175 billlion parameters while mine is like 124m parameters
+# its insane, this takes up 600 gb 
+from numerize import numerize
+param = numerize.numerize(175000000000)
+print(param)
+total_size_bytes = 175000000000 * 4
+total_size_mb = total_size_bytes / (1024 * 1024)
+print(f"Total size of the model: {total_size_mb:.2f} MB")
+print(f"Total size of the model: {total_size_mb/1024:.2f} GB")
+
+
