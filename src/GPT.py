@@ -172,62 +172,81 @@ class GPTModel(nn.Module):
     
 def generate_text_simple(model, idx, max_new_tokens, context_size):
     for _ in range(max_new_tokens):
-        idx_cond = idx[:, -context_size]
+        idx_cond = idx[:, -context_size:]
         with torch.no_grad():
             logits = model(idx_cond)
-            
         logits = logits[:, -1, :]
         probas = torch.softmax(logits, dim=-1)
         idx_next = torch.argmax(probas, dim=-1, keepdim=True)
         idx = torch.cat((idx, idx_next), dim=1)
     
+    return idx
     
-# creating a input batch first
+# # creating a input batch first
 tokenizer = tiktoken.get_encoding("gpt2")
-batch = []
-txt1 = "Every effort moves you"
-# i did update the text but each batch must be 
-# equal size for the torch.stack thing to work  
-txt2 = "Every day holds a"
+# batch = []
+# txt1 = "Every effort moves you"
+# # i did update the text but each batch must be 
+# # equal size for the torch.stack thing to work  
+# txt2 = "Every day holds a"
 
-batch.append(torch.tensor(tokenizer.encode(txt1)))
-batch.append(torch.tensor(tokenizer.encode(txt2)))
+# batch.append(torch.tensor(tokenizer.encode(txt1)))
+# batch.append(torch.tensor(tokenizer.encode(txt2)))
 
-batch = torch.stack(batch, dim=0)
+# batch = torch.stack(batch, dim=0)
     
 
-torch.manual_seed(123)
+# torch.manual_seed(123)
 model = GPTModel(GPT_CONFIG_124M)
 
-out = model(batch) 
-print("Input Batch:\n", batch) 
-print("\nOutput Batch:", out.shape)
-print(out) 
+# out = model(batch) 
+# print("Input Batch:\n", batch) 
+# print("\nOutput Batch:", out.shape)
+# print(out) 
 
 
-# getting total number of parameters in the model's parameter tensors
-total_params = sum(p.numel() for p in model.parameters())
-print(f"Total number of parameters: {total_params:,}")
+# # getting total number of parameters in the model's parameter tensors
+# total_params = sum(p.numel() for p in model.parameters())
+# print(f"Total number of parameters: {total_params:,}")
 
-total_params_gpt2 = (
-    total_params - sum(p.numel()
-        for p in model.out_head.parameters())
-    )
+# total_params_gpt2 = (
+#     total_params - sum(p.numel()
+#         for p in model.out_head.parameters())
+#     )
 
-print(f"Number of trainable parameters "
-      f"considering weight tying: {total_params_gpt2:,}"
-      )
+# print(f"Number of trainable parameters "
+#       f"considering weight tying: {total_params_gpt2:,}"
+#       )
 
 # it's 600 ish mb for my small model 
 # and i was testing to see how much space does gpt 4 take up 
 # given it has 175 billlion parameters while mine is like 124m parameters
 # its insane, this takes up 600 gb 
-from numerize import numerize
-param = numerize.numerize(175000000000)
-print(param)
-total_size_bytes = 175000000000 * 4
-total_size_mb = total_size_bytes / (1024 * 1024)
-print(f"Total size of the model: {total_size_mb:.2f} MB")
-print(f"Total size of the model: {total_size_mb/1024:.2f} GB")
+# from numerize import numerize
+# param = numerize.numerize(175000000000)
+# print(param)
+# total_size_bytes = 175000000000 * 4
+# total_size_mb = total_size_bytes / (1024 * 1024)
+# print(f"Total size of the model: {total_size_mb:.2f} MB")
+# print(f"Total size of the model: {total_size_mb/1024:.2f} GB")
 
 
+start_context = "Hello, I am"
+encoded = tokenizer.encode(start_context)
+print("encoded: ", encoded)
+encoded_tensor = torch.tensor(encoded).unsqueeze(0)
+print("encoded_tensor.shape: ", encoded_tensor.shape)
+
+model.eval()
+out = generate_text_simple(
+    model=model,
+    idx = encoded_tensor, 
+    max_new_tokens=6, 
+    context_size=GPT_CONFIG_124M["context_length"]
+)
+
+print("Output:", out)
+print("Output length:", len(out[0]))
+
+decoded_text = tokenizer.decode(out.squeeze(0).tolist())
+print(decoded_text)
